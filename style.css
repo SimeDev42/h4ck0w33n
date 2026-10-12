@@ -382,6 +382,22 @@ h2 {
   line-height: 1;
   color: var(--orange);
 }
+.step-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.step-icon {
+  flex: none;
+  color: var(--orange);
+  line-height: 0;
+}
+.step-icon svg {
+  width: 38px;
+  height: 38px;
+  display: block;
+}
 .steps h3 {
   font-family: var(--pixel);
   font-weight: 400;
