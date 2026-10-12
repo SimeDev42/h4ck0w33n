@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>H4CK-O-W33N · Hacktoberfest 2026 Meetup · Vejle</title>
+    <meta
+      name="description"
+      content="Build a haunted lantern. Wake it up with AI. Free workshop at FabLab Spinderihallerne, Vejle — Wed 28th Oct, 15:00–20:00. Ages 13+." />
+    <meta property="og:title" content="H4CK-O-W33N — Build a haunted lantern" />
+    <meta
+      property="og:description"
+      content="Laser-cut it. Add an LED. Give it a personality and talk to it. Free · Vejle · 28 Oct 2026." />
+    <meta name="theme-color" content="#251a35" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Micro+5&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <span>A Hacktoberfest 2026 Meetup</span>
+        <span>Vejle, DK</span>
+      </div>
+
+      <header class="hero">
+        <h1 class="logo" aria-label="Hack-o-ween">
+          <span aria-hidden="true">H4CK</span>
+          <span class="dash" aria-hidden="true">o</span>
+          <span aria-hidden="true">W33N</span>
+        </h1>
+        <p class="tagline">Build a haunted lantern.<br />Wake it up with AI.</p>
+        <p class="sub">
+          Laser-cut it. Add an LED.<br />Give it a personality and talk to it.
+        </p>
+        <a class="cta" aria-disabled="true" title="Registration opening soon">Sign Up</a>
+        <span class="cta-note">Sign-up isn't open yet</span>
+        <div>
+          <div class="count" id="count" aria-live="off" hidden>
+            <div><b id="d">--</b><span>days</span></div>
+            <div><b id="h">--</b><span>hrs</span></div>
+            <div><b id="m">--</b><span>min</span></div>
+            <div><b id="s">--</b><span>sec</span></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid">
+        <div class="cell">
+          <div class="label">When</div>
+          <div class="big">Wed 28th Oct</div>
+          <div class="small">15:00 – 20:00</div>
+        </div>
+        <div class="cell">
+          <div class="label">Where</div>
+          <div class="big">FabLab<br />Spinderihallerne</div>
+          <div class="small">Vejle · Spinderigade 11H</div>
+        </div>
+        <div class="cell">
+          <div class="label">Cost</div>
+          <div class="big">Free</div>
+          <div class="small">Cakes &amp; Coffee included</div>
+        </div>
+        <div class="cell">
+          <div class="label">Who</div>
+          <div class="big">Ages 13+</div>
+          <div class="small">No experience needed</div>
+        </div>
+      </div>
+
+      <section id="how">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li>
+            <div class="n">01</div>
+            <h3>Laser-cut it</h3>
+            <p>Design and cut your own lantern body in the FabLab.</p>
+          </li>
+          <li>
+            <div class="n">02</div>
+            <h3>Add an LED</h3>
+            <p>Wire up the light that will bring it to life.</p>
+          </li>
+          <li>
+            <div class="n">03</div>
+            <h3>Wake it up</h3>
+            <p>Give it a personality with AI, then talk to it.</p>
+          </li>
+        </ol>
+      </section>
+
+      <div class="register" id="register">
+        <div>
+          <div class="label">Register</div>
+          <div class="big">Registration opens soon</div>
+          <p>
+            Free entry. Sign-up will open shortly so we know how many lanterns
+            to prepare.
+          </p>
+        </div>
+        <!-- Registration disabled for now. To enable: restore href with the real registration URL and remove aria-disabled. -->
+        <a class="cta" aria-disabled="true" title="Registration opening soon" style="margin-top: 0">Sign up</a>
+      </div>
+
+      <footer>
+        <span>H4CK-O-W33N · Hacktoberfest 2026 Meetup</span>
+        <span>FabLab Spinderihallerne, Vejle, DK</span>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
