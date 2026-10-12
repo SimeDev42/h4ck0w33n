@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deployment at a time; newer pushes cancel older ones.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache-bust assets in index.html
+        run: |
+          python3 - <<'PY'
+          import hashlib, pathlib, re
+
+          assets = ["style.css", "script.js", "favicon.svg"]
+          hashes = {
+              a: hashlib.sha256(pathlib.Path(a).read_bytes()).hexdigest()[:8]
+              for a in assets
+          }
+
+          index = pathlib.Path("index.html")
+          html = index.read_text()
+          for asset, version in hashes.items():
+              # Replace an existing ?v=... value.
+              html = re.sub(
+                  re.escape(asset) + r"\?v=[0-9A-Za-z]+",
+                  asset + "?v=" + version,
+                  html,
+              )
+              # If the asset had no query string yet, add one.
+              if (asset + "?v=") not in html:
+                  html = html.replace(asset + '"', asset + "?v=" + version + '"')
+          index.write_text(html)
+          print(hashes)
+          PY
+          # Show the result for easy debugging in the Action log.
+          grep -nE 'style\.css|script\.js|favicon\.svg' index.html
+
+      - name: Stage site
+        run: |
+          mkdir -p _site
+          cp index.html style.css script.js favicon.svg .nojekyll _site/
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
