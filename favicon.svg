@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- stem -->
+  <rect x="12" y="0" width="8" height="4" fill="#6fae3a" />
+  <!-- pumpkin body (pixel rounded) -->
+  <rect x="8" y="4" width="16" height="4" fill="#ff8000" />
+  <rect x="4" y="8" width="24" height="16" fill="#ff8000" />
+  <rect x="8" y="24" width="16" height="4" fill="#ff8000" />
+  <rect x="12" y="28" width="8" height="4" fill="#ff8000" />
+  <!-- eyes -->
+  <rect x="9" y="10" width="4" height="6" fill="#251a35" />
+  <rect x="19" y="10" width="4" height="6" fill="#251a35" />
+  <!-- mouth -->
+  <rect x="10" y="19" width="4" height="3" fill="#251a35" />
+  <rect x="14" y="21" width="4" height="3" fill="#251a35" />
+  <rect x="18" y="19" width="4" height="3" fill="#251a35" />
+</svg>
