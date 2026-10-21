@@ -25,39 +25,59 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cache-bust assets in index.html
+      - name: Cache-bust assets in HTML
         run: |
           python3 - <<'PY'
-          import hashlib, pathlib, re
+          import hashlib, os, re
+          from pathlib import Path
 
-          assets = ["style.css", "script.js", "favicon.svg"]
+          # Collect site files without descending into dot-dirs or _site.
+          files = []
+          for dirpath, dirnames, filenames in os.walk("."):
+              dirnames[:] = [d for d in dirnames if not d.startswith(".") and d != "_site"]
+              for name in filenames:
+                  if name.startswith("."):
+                      continue
+                  files.append(Path(dirpath) / name)
+
+          # Hash every css/js/svg by filename (HTML references them by name).
           hashes = {
-              a: hashlib.sha256(pathlib.Path(a).read_bytes()).hexdigest()[:8]
-              for a in assets
+              p.name: hashlib.sha256(p.read_bytes()).hexdigest()[:8]
+              for p in files
+              if p.suffix in (".css", ".js", ".svg")
           }
 
-          index = pathlib.Path("index.html")
-          html = index.read_text()
-          for asset, version in hashes.items():
-              # Replace an existing ?v=... value.
-              html = re.sub(
-                  re.escape(asset) + r"\?v=[0-9A-Za-z]+",
-                  asset + "?v=" + version,
-                  html,
-              )
-              # If the asset had no query string yet, add one.
-              if (asset + "?v=") not in html:
-                  html = html.replace(asset + '"', asset + "?v=" + version + '"')
-          index.write_text(html)
-          print(hashes)
+          # Rewrite every HTML page, wherever it lives (root or subfolders).
+          for page in [p for p in files if p.suffix == ".html"]:
+              html = page.read_text()
+              for asset, version in hashes.items():
+                  # Replace an existing ?v=... value.
+                  html = re.sub(
+                      re.escape(asset) + r"\?v=[0-9A-Za-z]+",
+                      asset + "?v=" + version,
+                      html,
+                  )
+                  # If the asset had no query string yet, add one.
+                  if (asset + "?v=") not in html:
+                      html = html.replace(asset + '"', asset + "?v=" + version + '"')
+              page.write_text(html)
+
+          print("versions:", hashes)
           PY
           # Show the result for easy debugging in the Action log.
-          grep -nE 'style\.css|script\.js|favicon\.svg' index.html
+          grep -rnE --include='*.html' --exclude-dir=.git '\.(css|js|svg)\?v=' .
 
       - name: Stage site
         run: |
           mkdir -p _site
-          cp index.html style.css script.js favicon.svg .nojekyll _site/
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='_site' \
+            --exclude='.gitignore' \
+            --exclude='README.md' \
+            ./ _site/
+          find _site -type f | sort
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
